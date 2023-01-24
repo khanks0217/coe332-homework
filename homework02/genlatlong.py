@@ -25,7 +25,7 @@ for i in range(1,6):
     sites.append({
         'site_id': site_id, 
         'latitude': lat, 
-        'longitue': lon, 
+        'longitude': lon, 
         'composition': comp 
         })
 

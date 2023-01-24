@@ -2,32 +2,32 @@
   "sites": [
     {
       "site_id": 1,
-      "latitude": 16.586663131714378,
-      "longitue": 83.86191731181918,
+      "latitude": 16.418933039476386,
+      "longitude": 83.65190351278075,
       "composition": "stony-iron"
     },
     {
       "site_id": 2,
-      "latitude": 17.97327261616585,
-      "longitue": 82.08306339196066,
+      "latitude": 16.093939532718974,
+      "longitude": 82.80819094243384,
       "composition": "stony"
     },
     {
       "site_id": 3,
-      "latitude": 17.365603657753166,
-      "longitue": 83.84992020535233,
-      "composition": "iron"
+      "latitude": 17.999479042465,
+      "longitude": 83.64807797090596,
+      "composition": "stony-iron"
     },
     {
       "site_id": 4,
-      "latitude": 16.580603047941544,
-      "longitue": 82.37461836015922,
+      "latitude": 17.007429062461696,
+      "longitude": 82.57192619653105,
       "composition": "iron"
     },
     {
       "site_id": 5,
-      "latitude": 16.39525045254156,
-      "longitue": 82.07449039263898,
+      "latitude": 17.38611429757315,
+      "longitude": 82.36870042155739,
       "composition": "stony"
     }
   ]
