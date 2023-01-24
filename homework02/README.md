@@ -4,7 +4,7 @@ Kris Hanks
 COE 332 - Spring 2023
 Homework 2
 
-Part 1 - getlatlong.py
+Part 1 - genlatlong.py
 - Write a Python script to randomly generate latitude, longitude, and compositions for the five meteorite landing sites.
 - The latitudes range between 16.0 - 18.0 degrees North 
 - The longitudes range between 82.0 - 84.0 degrees East in decimal notation.
