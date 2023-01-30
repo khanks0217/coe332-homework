@@ -23,6 +23,7 @@ This code has two functions:
 	- Calculate distance, travel time, and time to sample between landings.
 
 To run genlatlong.py 
+
 	'python3 genlatlong.py'
 
 	'#Returns data in meterorite_landings.json'
@@ -30,6 +31,7 @@ To run genlatlong.py
 	'python3 traveltime.py'
 
 **Usage**
+
 'import json'
 
 'import random'
