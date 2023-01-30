@@ -6,6 +6,7 @@ trip_info = []
 speed = 10 #km/hr
 radius = 3389.5
 
+#Great-Circle distance algorithm : distance between points
 def calc_gcd(latitude_1: float, longitude_1: float, latitude_2: float, longitude_2: float) -> float:
         lat1, lon1, lat2, lon2 = map( math.radians, [latitude_1, longitude_1, latitude_2, longitude_2] )
         d_sigma = math.acos( math.sin(lat1) * math.sin(lat2) + math.cos(lat1) * math.cos(lat2) * math.cos(abs(lon1-lon2)))
@@ -19,6 +20,7 @@ def travel_time(a_list_of_dicts):
     totaltime = 0
     totaldist = 0
 
+    #Assume robot visits five sites in order of the list index
     for i in range(len(a_list_of_dicts)):
         latitude = a_list_of_dicts[i]['latitude']
         longitude = a_list_of_dicts[i]['longitude']
@@ -45,10 +47,13 @@ def travel_time(a_list_of_dicts):
                 'time to sample': sampletime
                 })
         print(trip_info[i], sep = '\n')
+    #Trip is "over" after sampling last meteorite
+    #Print descriptive summary info:
     print("Total Travel Time = " , totaltime , "hr")
     print("Total Travel Distance = " , totaldist , "km")
     return(trip_info)
 
+#Use json library to read in data from meterorite_landings.json
 with open('meterorite_landings.json', 'r') as f:
     ml_data = json.load(f)
 

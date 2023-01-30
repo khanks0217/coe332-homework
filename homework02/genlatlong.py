@@ -9,17 +9,18 @@ import json
 import random
     #https://docs.python.org/3/library/random.html
 
+sites = []
 composition = ["stony", "iron", "stony-iron"]
-sites= []
-
 latitude_range = (16.0, 18.0)
 longitude_range = (82.0, 84.0)
 
 for i in range(1,6):
     #Uniform specifies a name, random.random does not
     site_id = i;
-    lat = random.uniform(16.0, 18.0)
-    lon = random.uniform(82.0, 84.0)
+    #Gernerate random pairs of lats and longs in decimal notation
+    lat = random.uniform(latitude_range[0], latitude_range[1])
+    lon = random.uniform(longitude_range[0], longitude_range[1])
+    #Choose a random meteorite composition
     comp = random.choice(composition)
         #random.choice - Return a rand elem from the non-empty sequence seq.
     sites.append({
