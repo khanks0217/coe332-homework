@@ -19,6 +19,7 @@ The python script, analysze_water.py, reads in the water quality data set and pr
 
 	3. The minimum time required for turbidity to be within a safe threshold. 
 
+		Equation: Hours Elapsed = (log(Ts/T) / (log(1-d)))
 **Part 2 - test_analyze_water.py**
 
 The python script, test_analyze_water.py, is a unit test script to test the functions in analyze_water.py. There is at least one test associated with each function which perform simple mathematical sanity checks.  

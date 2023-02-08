@@ -1,5 +1,6 @@
 import json
 import requests
+import math
 from typing import List
 
 def water_turbidity(CalibConstData:List[float], DetectorCurrentData:List[float]) -> float:
@@ -19,7 +20,6 @@ def water_turbidity(CalibConstData:List[float], DetectorCurrentData:List[float])
     # I90 - Ninety degree detector current
     T = 0
     for i in range(-5,0):
-        print("CalibConstant = ", CalibConstData[i])
         T = T + (CalibConstData[i] * DetectorCurrentData[i])
     T = T/5
     return T
@@ -36,32 +36,34 @@ def threshold(T : float) -> float:
     float -- the minimum time required for the water turbidity to fall below 
     the threshold
     """
-    safe = 1.0
-    decay = 0.02
+    Ts = 1.0 #Turbidity threshold for safe water
+    d= 0.02 #Decay factor per hour
 
-    if T <= safe:
+    if T <= Ts:
         return 0.0 #If water is already safe
     else:
-        return(turbidity - safe)/(decay * safe)
+        return (math.log(Ts/T) / (math.log(1-d)))
 
 def main():
     response = requests.get("https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json")
     water_data = json.loads(response.text)
 
+    #Collect calibration constant and detector current values.
     calib_const = [item['calibration_constant'] for item in water_data['turbidity_data']]
     detector_curr = [item['detector_current'] for item in water_data['turbidity_data']]
 
+    #Calculate water turbidity. 
     turb = water_turbidity(calib_const, detector_curr)
-    print("Average turbidity based on most recent five measurements: ", turb);
+    print("\nAverage turbidity based on most recent five measurements: ", turb, "NTU");
 
-    print("I AM UNSURE HOW TO CALCULATE TIME UNTIL BELOW THRESHOLD\n")
-
+    #Check water turbidity levels.
     if turb > 1.0:
-        print("Warning: Turbidity is above threshold for safe use\n")
+        print("Warning: Turbidity is above threshold for safe use.")
     else:
-        print("Info: Turbidity is below threshold for safe use\n")
+        print("Info: Turbidity is within threshold for safe use.")
 
-    print("Time until below threshold: ", threshold(turb), "hrs\n")
+    #Calculate time until within threshold
+    print("Time until below threshold: ", threshold(turb), "hrs.\n")
 
 if __name__ == '__main__':
     main()
