@@ -1,10 +1,5 @@
-#Write function to read in file and store it in a dictionary
-#Go to ssh khanks-vm and look at class example
-
-#Homework Requirements
-    # Docstrings!
-    # Type Annotations
-    # Write a Flask application for querying the ISS position and velocity
+#Kris Hanks
+#Homework 4, COE332
 import math
 import requests
 import xmltodict
@@ -61,7 +56,7 @@ def get_mydata() -> dict:
     """
     return find_the_EPOCHS()
 
-#Route ('/epoch') to return a list of all epochs in the data set
+#Route ('/epochs') to return a list of all epochs in the data set
 @app.route('/epochs', methods = ['GET'])
 def get_epochs() -> dict:
     """
@@ -75,7 +70,7 @@ def get_epochs() -> dict:
         epochs.append(d['EPOCH'])
     return {'epochs' : epochs}
 
-#Route ('/epoch/<epoch>') to return a state vectors for a specific Epoch from the data set
+#Route ('/epochs/<epochval>') to return a state vectors for a specific Epoch from the data set
 @app.route('/epochs/<string:epochval>', methods = ['GET'])
 def get_state_vectors(epochval:str) -> dict:
     """
@@ -100,7 +95,7 @@ def get_state_vectors(epochval:str) -> dict:
     return f"Error in get_state_vectors"
 
 
-#Route ('/epoch/<epoch>/speed to return speed for a specific Epoch
+#Route ('/epochs/<epochval>/speed to return speed for a specific Epoch
 @app.route('/epochs/<string:epochval>/speed',methods = ['GET'])
 def get_speed(epochval:str) -> float:
     """

@@ -7,6 +7,10 @@ Homework 4
 **Data Collected From:**
 https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml
 
+**Project Objective**
+Sift through an abundance of positional and velocity data for the International Space Station (ISS). Build a Flask application for querying and returning information from the ISS data set. 
+
+
 **iss_TRACKER.py**
 
 The python script, iss_TRACKER.py, reads in the ‘Orbital Ephemeris Message (OEM)’ data in XML format which contains ISS state vectors over an ~15 day period.‘State vectors’ are the Cartesian vectors for both position {X, Y, Z} and velocity {X_DOT, Y_DOT, Z_DOT} that, along with a time stamp (EPOCH), describe the complete state of the system (the ISS).
@@ -32,11 +36,11 @@ Flask Application Routes:
 
 		curl localhost:5000/
 
-		curl localhost:5000/epoch
+		curl localhost:5000/epochs
 
-		curl localhost:5000/epoch/2023-059T10:49:00.000Z	
+		curl localhost:5000/epochs/2023-059T10:49:00.000Z	
 
-		curl localhost:5000/epoch/2023-059T10:49:00.000Z/speed
+		curl localhost:5000/epochs/2023-059T10:49:00.000Z/speed
 
 **Expected Output, Sample**
 
