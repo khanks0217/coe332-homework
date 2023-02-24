@@ -142,8 +142,13 @@ def delete_data():
     """
     Delete all data from the dictionary object.
     """
-    del root
-    return {"message": "Data successfully deleted."}
+    try:
+        with open('ISS.OEM_J2K_EPH.xml', 'wb') as f:
+            json.dump(data,f)
+        return {'message': "Data successfully deleted."}, 200
+
+    except Exception as e:
+        return {'error': str(e)}, 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
