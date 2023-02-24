@@ -1,14 +1,14 @@
 Kris Hanks
 
-COE 332 - Spring 2023
+Homework5, COE 332 - Spring 2023
 
-Homework 4
+**Containerized ISS Tracker**
 
 **Data Collected From:**
 https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml
 
 **Project Objective**
-Sift through an abundance of positional and velocity data for the International Space Station (ISS). Build a Flask application for querying and returning information from the ISS data set. 
+Sift through an abundance of positional and velocity data for the International Space Station (ISS). Build a Flask application for querying and returning information from the ISS data set. The included Dockerfile containerizes iss_tracker.py to make it portable. 
 
 
 **iss_TRACKER.py**
@@ -21,10 +21,17 @@ Flask Application Routes:
 	
 	Route: "/epochs" - Returns a list of all Epochs in the data set. 
 
+	Route: "/epochs?limit=int&offset=int" - Returns modified list of Epochs given query parameters. 
+
 	Route: "/epochs/<epoch>" - Returns a state vector for specified epoch. 
 
 	Route: "/epochs/<epoch>/speed" - Returns instantaneous speed for specified epoch. 
 
+	Route: "/help" - Returns help text (as a string) that briefly describes each route.
+
+	Route: "/delete-data" - Delete all data from the dictionary object.
+
+	Route: "/post-data" - Reload the dictionary object with data from the web.
 
 **Running iss_TRACKER.py**
 
@@ -38,9 +45,15 @@ Flask Application Routes:
 
 		curl localhost:5000/epochs
 
+		curl localhost:5000/epochs?limit=20&offset=50
+
 		curl localhost:5000/epochs/2023-059T10:49:00.000Z	
 
 		curl localhost:5000/epochs/2023-059T10:49:00.000Z/speed
+
+		curl localhost:5000/delete-data
+	
+		curl localhost:5000/post-data
 
 **Expected Output, Sample**
 
@@ -69,6 +82,31 @@ Flask Application Routes:
     					"2023-044T12:24:00.000Z",
 					(continued)
 
+	Sample Output for curl localhost:5000/epochs?limit20&offset=50
+		"epochs": [
+			    "2023-053T12:00:00.000Z",
+			    "2023-053T12:04:00.000Z",
+			    "2023-053T12:08:00.000Z",
+			    "2023-053T12:12:00.000Z",
+			    "2023-053T12:16:00.000Z",
+			    "2023-053T12:20:00.000Z",
+			    "2023-053T12:24:00.000Z",
+			    "2023-053T12:28:00.000Z",
+			    "2023-053T12:32:00.000Z",
+			    "2023-053T12:36:00.000Z",
+			    "2023-053T12:40:00.000Z",
+			    "2023-053T12:44:00.000Z",
+			    "2023-053T12:48:00.000Z",
+			    "2023-053T12:52:00.000Z",
+			    "2023-053T12:56:00.000Z",
+			    "2023-053T13:00:00.000Z",
+			    "2023-053T13:04:00.000Z",
+			    "2023-053T13:08:00.000Z",
+			    "2023-053T13:12:00.000Z",
+			    "2023-053T13:16:00.000Z"
+		  ]
+		}	
+
 	Sample Output for curl localhost:5000/epochs/2023-059T10:49:00.000Z
 		{
 		  "state_vectors": {
@@ -85,3 +123,4 @@ Flask Application Routes:
 		{
 		  "speed": 7.664457746957065
 		}
+
