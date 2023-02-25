@@ -4,8 +4,10 @@ FROM python:3.8.10
 
 RUN pip install Flask==2.2.2
 
+RUN pip install requests=2.26.0
+
+RUN pip install xmltodict==0.12.0
+
 COPY iss_tracker.py /iss_tracker.py
 
-EXPOSE 5000
-
-CMD ["python3", "iss_tracker.py"]
+CMD ["python", "iss_tracker.py"]

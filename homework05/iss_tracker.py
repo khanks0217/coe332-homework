@@ -82,11 +82,15 @@ def get_epochs() -> dict:
     Returns:
     Dictionary of all epochs in the data set. 
     """
+    epochcheck = find_the_EPOCHS()['ISS_VALUES']
     offset = request.args.get('offset', default=0, type=int)
-    limit = request.args.get('limit', default=10, type=int)
-    epochs = []
-    for d in find_the_EPOCHS()['ISS_VALUES'][offset:offset+limit]:
-        epochs.append(d['EPOCH'])
+    limit = request.args.get('limit', default=len(epochcheck), type=int)
+
+    epochs_data = find_the_EPOCHS()['ISS_VALUES']
+    end_index = offset + limit
+
+    epochs = [d['EPOCH'] for d in epochs_data[offset:end_index]]
+
     return {'epochs' : epochs}
 
 #Route ('/epochs/<epochval>') to return a state vectors for a specific Epoch from the data set
@@ -142,13 +146,9 @@ def delete_data():
     """
     Delete all data from the dictionary object.
     """
-    try:
-        with open('ISS.OEM_J2K_EPH.xml', 'wb') as f:
-            json.dump(data,f)
-        return {'message': "Data successfully deleted."}, 200
-
-    except Exception as e:
-        return {'error': str(e)}, 500
+    global root
+    root.clear()
+    return "All data deleted successfully."
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

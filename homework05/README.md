@@ -35,9 +35,12 @@ Flask Application Routes:
 
 **Running iss_TRACKER.py**
 
-	On one terminal window, start the Flask app.
+	On one terminal window, build and run the docker.
 
-		flask --app iss_TRACKER --debug run --port 5000
+		docker build -t khanks/iss_tracker:1.1 .
+
+		docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1
+
 
 	In a different terminal window, run the different routes by following the respective commands. 
 
@@ -51,11 +54,52 @@ Flask Application Routes:
 
 		curl localhost:5000/epochs/2023-059T10:49:00.000Z/speed
 
-		curl localhost:5000/delete-data
+		curl -X DELETE localhost:5000/delete-data
 	
 		curl localhost:5000/post-data
 
 **Expected Output, Sample**
+
+	Sample Output for docker build -t khanks/iss_tracker:1.1 .                                    
+                Sending build context to Docker daemon  3.062MB                                       
+                Step 1/6 : FROM python:3.8.10                                                         
+                 ---> a369814a9797                                                                    
+                Step 2/6 : RUN pip install requests==2.26.0                                           
+                 ---> Using cache                                                                     
+                 ---> 3d7d5d3d3c53                                                                    
+                Step 3/6 : RUN pip install Flask==2.2.2                                               
+                 ---> Using cache                                                                     
+                 ---> 2d89d63bf54e                                                                    
+                Step 4/6 : RUN pip install xmltodict==0.12.0                                          
+                 ---> Running in cb729db53967
+                Collecting xmltodict==0.12.0
+                  Downloading xmltodict-0.12.0-py2.py3-none-any.whl (9.2 kB)                          
+                Installing collected packages: xmltodict                                              
+                Successfully installed xmltodict-0.12.0                                               
+                Removing intermediate container cb729db53967                                          
+                 ---> 524cdc9bc824                                                                    
+                Step 5/6 : COPY iss_tracker.py /iss_tracker.py
+                 ---> 70a150e108c4
+                Step 6/6 : CMD ["python", "iss_tracker.py"]                                           
+                 ---> Running in e1622a419a3e                                                         
+                Removing intermediate container e1622a419a3e                                          
+                 ---> d8ffe49eea2a                                                                    
+                Successfully built d8ffe49eea2a                                                       
+                Successfully tagged khanks/iss_tracker:1.1
+
+	Sample Output for docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1                     
+                * Serving Flask app 'iss_tracker'                                                     
+                * Debug mode: on                                                                      
+                WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI s
+erver instead.
+                 * Running on all addresses (0.0.0.0)                                                 
+                 * Running on http://127.0.0.1:5000                                                   
+                 * Running on http://172.17.0.2:5000                                                  
+                Press CTRL+C to quit                                                                  
+                 * Restarting with stat
+                 * Debugger is active!                                                                
+                 * Debugger PIN: 493-291-309                                                          
+                172.17.0.1 - - [25/Feb/2023 19:23:49] "GET /degrees HTTP/1.1" 404 - 
 
 	Sample Output for curl localhost:5000/
 		{
@@ -124,3 +168,12 @@ Flask Application Routes:
 		  "speed": 7.664457746957065
 		}
 
+	Sample Output for curl -X DELETE localhost:5000/delete-data                                   
+                All data deleted successfully.                                                        
+                                                                                                      
+                After deleting, curl localhost:5000/epochs return                                     
+                {                                                                                     
+                  "epochs": []                                                                        
+                }
+
+	Sample Output for curl localhost:5000/post-data
