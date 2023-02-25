@@ -17,6 +17,8 @@ with open('ISS.OEM_J2K_EPH.xml', 'wb') as data:
 tree = ET.parse('ISS.OEM_J2K_EPH.xml')
 root = tree.getroot()
 
+ISS_VALUES = []
+
 #Get a list of all epochs in data set
 def find_the_EPOCHS() -> dict:
     """
@@ -25,7 +27,7 @@ def find_the_EPOCHS() -> dict:
     Returns:
     Dictionary containing all epochs, state vectors, and velocities in the data set. 
     """
-    ISS_VALUES = []
+    global ISS_VALUES
     position = root.findall('.//stateVector')
     for position in position:
         epochs = position.find("EPOCH").text
@@ -146,9 +148,16 @@ def delete_data():
     """
     Delete all data from the dictionary object.
     """
+    global ISS_VALUES
+    ISS_VALUES = []
     global root
     root.clear()
-    return "All data deleted successfully."
+    return "All data deleted successfully.\n"
+
+@app.route('/post-data', methods = ['POST'])
+def post_data():
+    find_the_EPOCHS()
+    return "Data restored.\n"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

@@ -151,7 +151,7 @@ erver instead.
 		  ]
 		}	
 
-	Sample Output for curl localhost:5000/epochs/2023-059T10:49:00.000Z
+	Sample Output for curl localhost:5000/epochs/2023-053T13:08:00.000Z
 		{
 		  "state_vectors": {
 		    "x": "-1661.0466270982599",
@@ -163,7 +163,7 @@ erver instead.
   		}
 		}
 
-	Sample Output for curl localhost:5000/epoch/2023-059T10:49:00.000Z/speed
+	Sample Output for curl localhost:5000/epoch/2023-053T13:08:00.000Z/speed
 		{
 		  "speed": 7.664457746957065
 		}
