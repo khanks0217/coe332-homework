@@ -56,7 +56,7 @@ Flask Application Routes:
 
 		curl -X DELETE localhost:5000/delete-data
 	
-		curl localhost:5000/post-data
+		curl -x POST localhost:5000/post-data
 
 **Expected Output, Sample**
 
@@ -176,4 +176,4 @@ erver instead.
                   "epochs": []                                                                        
                 }
 
-	Sample Output for curl localhost:5000/post-data
+	Sample Output for curl -X POST localhost:5000/post-data
