@@ -56,7 +56,7 @@ Flask Application Routes:
 
 		curl -X DELETE localhost:5000/delete-data
 	
-		curl -x POST localhost:5000/post-data
+		curl -X POST localhost:5000/post-data
 
 **Expected Output, Sample**
 
