@@ -18,7 +18,6 @@ tree = ET.parse('ISS.OEM_J2K_EPH.xml')
 root = tree.getroot()
 
 ISS_VALUES = []
-
 #Get a list of all epochs in data set
 def find_the_EPOCHS() -> dict:
     """
@@ -28,24 +27,29 @@ def find_the_EPOCHS() -> dict:
     Dictionary containing all epochs, state vectors, and velocities in the data set. 
     """
     global ISS_VALUES
-    position = root.findall('.//stateVector')
-    for position in position:
-        epochs = position.find("EPOCH").text
-        x = position.find('X').text
-        x_dot = position.find('X_DOT').text
-        y = position.find('Y').text
-        y_dot = position.find('Y_DOT').text
-        z = position.find('Z').text
-        z_dot = position.find('Z_DOT').text
-        ISS_VALUES.append({
-            'EPOCH' : epochs,
-            'x' : x,
-            'x_dot': x_dot,
-            'y' : y,
-            'y_dot': y_dot,
-            'z' : z,
-            'z_dot' : z_dot})
-    return { 'ISS_VALUES' : ISS_VALUES}
+
+    try:
+        position = root.findall('.//stateVector')
+        for position in position:
+            epochs = position.find("EPOCH").text
+            x = position.find('X').text
+            x_dot = position.find('X_DOT').text
+            y = position.find('Y').text
+            y_dot = position.find('Y_DOT').text
+            z = position.find('Z').text
+            z_dot = position.find('Z_DOT').text
+            ISS_VALUES.append({
+                'EPOCH' : epochs,
+                'x' : x,
+                'x_dot': x_dot,
+                'y' : y,
+                'y_dot': y_dot,
+                'z' : z,
+                'z_dot' : z_dot})
+        return { 'ISS_VALUES' : ISS_VALUES}
+    except Exception as e:
+        return(f"Exception Error: find_the_EPOCHS() -> dict")
+
 
 #Help route to return readable strong with brief descriptions of available routes & methods.
 @app.route('/help', methods = ['GET'])
@@ -117,7 +121,7 @@ def get_state_vectors(epochval:str) -> dict:
                      'z' : d['z'],
                      'z_dot' : d['z_dot']
                      }}
-    return f"Error in get_state_vectors"
+    return f"Error in get_state_vectors.\n"
 
 
 #Route ('/epochs/<epochval>/speed to return speed for a specific Epoch
@@ -133,31 +137,58 @@ def get_speed(epochval:str) -> float:
     Returns:
     Float, Speed - Speed of ISS at specified epoch value. 
     """
-    for d in find_the_EPOCHS()['ISS_VALUES']:
-         if 'EPOCH' in d and d['EPOCH'] == epochval:
-             x_dot = d['x_dot']
-             y_dot = d['y_dot']
-             z_dot = d['z_dot']
-    #Calculate Speed
-    speed = math.sqrt((float(x_dot)**2)+(float(y_dot)**2)+(float(z_dot)**2))
-    return {'speed': speed}
+    try: 
+        for d in find_the_EPOCHS()['ISS_VALUES']:
+             if 'EPOCH' in d and d['EPOCH'] == epochval:
+                 x_dot = d['x_dot']
+                 y_dot = d['y_dot']
+                 z_dot = d['z_dot']
+        #Calculate Speed
+        speed = math.sqrt((float(x_dot)**2)+(float(y_dot)**2)+(float(z_dot)**2))
+        return {'speed': speed}
+    except(ValueError, KeyError):
+        return f"Error in get_speed(str)\n"
 
 #Route to delete everything from the in-memory dictionary of ISS data.
 @app.route('/delete-data', methods=['DELETE'])
 def delete_data():
     """
     Delete all data from the dictionary object.
+
+    Returns:
+    As tring indicating the data has been successfully deleted.
     """
-    global ISS_VALUES
-    ISS_VALUES = []
+    global ISS_VALUES 
+    ISS_VALUES= []
     global root
     root.clear()
-    return "All data deleted successfully.\n"
+    return ("All data deleted successfully.\n")
 
-@app.route('/post-data', methods = ['POST'])
+#Route to restore the data to the ISS dictionary.
+@app.route('/post-data', methods=['POST'])
 def post_data():
-    find_the_EPOCHS()
-    return "Data restored.\n"
+    """
+    Restore the data to ISS dictionary by using a new GET request to retrieve latest ISS data from url. 
+    The route clears the existing data before parsing the new XML data and updating the dictionary. 
+
+    Returns:
+    A string indicating that the data has been successfully restored. 
+
+    """
+    global ISS_VALUES
+    global root
+    #Remove data in case /dete-data has not already been called
+    ISS_VALUES = []
+    root.clear()
+    url = "https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml"
+    response = requests.get(url)
+    with open('ISS.OEM_J2K_EPH.xml', 'wb') as data:
+        data.write(response.content)
+    tree = ET.parse('ISS.OEM_J2K_EPH.xml')
+    root = tree.getroot()
+
+    ISS_VALUES = find_the_EPOCHS()['ISS_VALUES']
+    return("Data restored.\n")
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

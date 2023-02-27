@@ -2,48 +2,79 @@ Kris Hanks
 
 Homework5, COE 332 - Spring 2023
 
-**Containerized ISS Tracker**
+##**Containerized ISS Tracker**
+
+**Project Objective**
+Sift through an abundance of positional and velocity data for the International Space Station (ISS). Build
+ a Flask application for querying and returning information from the ISS data set. The included Dockerfile
+ containerizes iss_tracker.py to make it portable.
 
 **Data Collected From:**
 https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml
 
-**Project Objective**
-Sift through an abundance of positional and velocity data for the International Space Station (ISS). Build a Flask application for querying and returning information from the ISS data set. The included Dockerfile containerizes iss_tracker.py to make it portable. 
+**ISS Data Description**
+I STILL NEED TO WRITE A DESCRIPTION
 
+**iss_tracker.py Description:**
 
-**iss_TRACKER.py**
+The python script, iss_TRACKER.py, reads in the ‘Orbital Ephemeris Message (OEM)’ data in XML format which
+ contains ISS state vectors over an ~15 day period.‘State vectors’ are the Cartesian vectors for both posi
+tion {X, Y, Z} and velocity {X_DOT, Y_DOT, Z_DOT} that, along with a time stamp (EPOCH), describe the comp
+lete state of the system (the ISS).
 
-The python script, iss_TRACKER.py, reads in the ‘Orbital Ephemeris Message (OEM)’ data in XML format which contains ISS state vectors over an ~15 day period.‘State vectors’ are the Cartesian vectors for both position {X, Y, Z} and velocity {X_DOT, Y_DOT, Z_DOT} that, along with a time stamp (EPOCH), describe the complete state of the system (the ISS).
+**Dockerfile Description & Instructions**
 
-Flask Application Routes:
+How to pull and use the Dockerfule from Docker Hub:
+	I STILL NEED TO DO THIS
 
-	Route: "/" - Returns the entire data set.
+How to build a new image from Dockerfile:
+
+	docker build -t username/iss_tracker:1.1 .
+
+Test newly built image:
+
+	docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1
+
+	With the iss_tracker container running, curl in another window to interact with the program.
+
+**Flask API Front End:**
+
+The API front end is expose on port 5000 inside the container. Try the following routes:
+
+'''
+$ curl localhost:5000/
+
+	/ 				Returns the entire data set.
 	
-	Route: "/epochs" - Returns a list of all Epochs in the data set. 
+	/epochs				Returns a list of all Epochs in the data set. 
 
-	Route: "/epochs?limit=int&offset=int" - Returns modified list of Epochs given query parameters. 
+	/epochs?limit=int&offset=int" 	Returns modified list of Epochs given query parameters. 
 
-	Route: "/epochs/<epoch>" - Returns a state vector for specified epoch. 
+	/epochs/<epoch> 		Returns a state vector for specified epoch. 
 
-	Route: "/epochs/<epoch>/speed" - Returns instantaneous speed for specified epoch. 
+	/epochs/<epoch>/speed		Returns instantaneous speed for specified epoch. 
 
-	Route: "/help" - Returns help text (as a string) that briefly describes each route.
+	/help 				Returns help text (as a string) that briefly describes each route.
 
-	Route: "/delete-data" - Delete all data from the dictionary object.
+	/delete-data 			Delete all data from the dictionary object.
 
-	Route: "/post-data" - Reload the dictionary object with data from the web.
+	/post-data			Reload the dictionary object with data from the web.
+'''
 
-**Running iss_TRACKER.py**
+**Running iss_tracker.py**
 
 	On one terminal window, build and run the docker.
-
+	'''
 		docker build -t khanks/iss_tracker:1.1 .
 
 		docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1
-
-
+	'''
+	Now you are able to run the flask applicaiton. 
+	'''	
+		flask --app iss_tracker --debug run --port 5000
+	'''
 	In a different terminal window, run the different routes by following the respective commands. 
-
+	'''
 		curl localhost:5000/
 
 		curl localhost:5000/epochs
@@ -57,7 +88,7 @@ Flask Application Routes:
 		curl -X DELETE localhost:5000/delete-data
 	
 		curl -X POST localhost:5000/post-data
-
+	'''
 **Expected Output, Sample**
 
 	Sample Output for docker build -t khanks/iss_tracker:1.1 .                                    
