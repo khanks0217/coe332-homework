@@ -123,8 +123,7 @@ Sample Output for docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1
 
                 * Serving Flask app 'iss_tracker'                                                     
                 * Debug mode: on                                                                      
-                WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI s
-erver instead.
+                WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
                  * Running on all addresses (0.0.0.0)                                                 
                  * Running on http://127.0.0.1:5000                                                   
                  * Running on http://172.17.0.2:5000                                                  
