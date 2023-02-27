@@ -35,14 +35,14 @@ Test newly built image:
 
 	docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1
 
-	With the iss_tracker container running, curl in another window to interact with the program.
+With the iss_tracker container running, curl in another window to interact with the program.
 
 **Flask API Front End:**
 
 The API front end is expose on port 5000 inside the container. Try the following routes:
 
 
-$ curl localhost:5000/
+	$ curl localhost:5000/
 
 	/ 				Returns the entire data set.
 	
@@ -88,10 +88,11 @@ In a different terminal window, run the different routes by following the respec
 		curl -X DELETE localhost:5000/delete-data
 	
 		curl -X POST localhost:5000/post-data
-	'''
+	
 **Expected Output, Sample**
 
 Sample Output for docker build -t khanks/iss_tracker:1.1 .                                    
+
                 Sending build context to Docker daemon  3.062MB                                       
                 Step 1/6 : FROM python:3.8.10                                                         
                  ---> a369814a9797                                                                    
@@ -119,6 +120,7 @@ Sample Output for docker build -t khanks/iss_tracker:1.1 .
                 Successfully tagged khanks/iss_tracker:1.1
 
 Sample Output for docker run -it --rm -p 5000:5000 khanks/iss_tracker:1.1                     
+
                 * Serving Flask app 'iss_tracker'                                                     
                 * Debug mode: on                                                                      
                 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI s
@@ -133,6 +135,7 @@ erver instead.
                 172.17.0.1 - - [25/Feb/2023 19:23:49] "GET /degrees HTTP/1.1" 404 - 
 
 Sample Output for curl localhost:5000/
+
 		{
   			"OEM": [
     				{
@@ -146,6 +149,7 @@ Sample Output for curl localhost:5000/
     				}, (continued)		
 	
 Sample Output for curl localhost:5000/epochs
+
 			{
   				"epochs": [
    					"2023-044T12:00:00.000Z",
@@ -158,6 +162,7 @@ Sample Output for curl localhost:5000/epochs
 					(continued)
 
 Sample Output for curl localhost:5000/epochs?limit20&offset=50
+
 		"epochs": [
 			    "2023-053T12:00:00.000Z",
 			    "2023-053T12:04:00.000Z",
@@ -183,6 +188,7 @@ Sample Output for curl localhost:5000/epochs?limit20&offset=50
 		}	
 
 Sample Output for curl localhost:5000/epochs/2023-053T13:08:00.000Z
+
 		{
 		  "state_vectors": {
 		    "x": "-1661.0466270982599",
@@ -195,11 +201,13 @@ Sample Output for curl localhost:5000/epochs/2023-053T13:08:00.000Z
 		}
 
 Sample Output for curl localhost:5000/epoch/2023-053T13:08:00.000Z/speed
+
 		{
 		  "speed": 7.664457746957065
 		}
 
 Sample Output for curl -X DELETE localhost:5000/delete-data                                   
+
                 All data deleted successfully.                                                        
                                                                                                       
                 After deleting, curl localhost:5000/epochs return                                     
@@ -208,4 +216,5 @@ Sample Output for curl -X DELETE localhost:5000/delete-data
                 }
 
 Sample Output for curl -X POST localhost:5000/post-data
+
 		Data restored. 
