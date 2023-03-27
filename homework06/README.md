@@ -20,19 +20,19 @@ Description from : https://www.genenames.org/download/archive/
 
 How to pull and use the Dockerfule from Docker Hub:
 
-   docker pull khanks0217/gene_api:1.0
+	docker pull khanks0217/gene_api:1.0
 
 How to build a new image from Dockerfile:
 
-   docker build -t username/gene_api:1.0
+	docker build -t username/gene_api:1.0
 
 To launch a redis container that automatically saves:
 
-   docker run -d -p 6379:6379 -v $(pwd)/data:/data:rw redis:7 --save 1 1
+	docker run -d -p 6379:6379 -v $(pwd)/data:/data:rw redis:7 --save 1 1
 
 On one terminal window, build and run the docker.
 
-   python3 genge_api.py
+	python3 genge_api.py
 
 In a different terminal window, run the different routes by following the respective commands.
 
