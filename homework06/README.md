@@ -1,7 +1,8 @@
 # **Human Genome Organization Dataset**
 
 ## **Project Objective**
-	Sift through an abundance of geneology data from the Human Genome Organization. Build a Flask application for querying and returning information from the HUGO dataset. The included Dockerfile containerizes genes_api.py to make it portable. 
+
+Sift through an abundance of geneology data from the Human Genome Organization. Build a Flask application for querying and returning information from the HUGO dataset. The included Dockerfile containerizes genes_api.py to make it portable. 
 
 **Data Collected From:**
 
@@ -9,9 +10,9 @@
 
 **Data Description**
 
-	There are essentially two types of data file (excluding the file format type) of hgnc_complete_set and withdraw. The hgnc_complete_set is a set of all approved gene symbol reports found on the GRCh38 reference and the alternative reference loci (see fig. 2 for a list of columns/headings).
+There are essentially two types of data file (excluding the file format type) of hgnc_complete_set and withdraw. The hgnc_complete_set is a set of all approved gene symbol reports found on the GRCh38 reference and the alternative reference loci (see fig. 2 for a list of columns/headings).
 
-	Description from : https://www.genenames.org/download/archive/
+Description from : https://www.genenames.org/download/archive/
 
 ### **iss_tracker.py Description:**
 
@@ -19,19 +20,19 @@
 
 How to pull and use the Dockerfule from Docker Hub:
 
-	docker pull khanks0217/ XXXXX
+   docker pull khanks0217/gene_api:1.0
 
 How to build a new image from Dockerfile:
 
-	docker build -t username/XXXXX:latest
+   docker build -t username/gene_api:1.0
 
 To launch a redis container that automatically saves:
 
-	docker run -d -p 6379:6379 -v $(pwd)/data:/data:rw redis:7 --save 1 1
+   docker run -d -p 6379:6379 -v $(pwd)/data:/data:rw redis:7 --save 1 1
 
 On one terminal window, build and run the docker.
 
-	python3 genge_api.py
+   python3 genge_api.py
 
 In a different terminal window, run the different routes by following the respective commands.
 
