@@ -1,0 +1,17 @@
+#Step 1 - Homework07, khanks-test-pvc
+#Adapted from Unit 7, Deployments - hello-pvc.yml
+#To create this pvc:
+#[kube] $ kubectl apply -f hello-pvc.yml
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+        name: khanks-test-data
+spec:
+        accessModes:
+                - ReadWriteOnce
+        storageClassName: cinder-csi
+        resources:
+                requests:
+                        storage: 1Gi

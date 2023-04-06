@@ -1,0 +1,30 @@
+
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: khanks-test-flask
+        labels:
+                app: khanks-test-flask
+spec:
+        replicas: 2
+        selector:
+                matchLabels:
+                        app: khanks-test-flask
+        template:
+                metadata:
+                        labels:
+                                app: khanks-test-flask
+                spec:
+                        containers:
+                                - name: khanks-test-flask
+                                  imagePullPolicy: Always
+                                  image: khanks0217/gene_api:1.0
+                                  env:
+                                  - name: FLASK_APP
+                                    value: "gene_api.py"
+                                  ports:
+                                  - name: http
+                                    containerPort: 5000

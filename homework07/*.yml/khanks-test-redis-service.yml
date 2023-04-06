@@ -1,0 +1,19 @@
+#Step 3 - Homework07, test-redis-service
+##Did NOT finish!
+## $ kubectl apply -f hello-flask-service.yml
+## $ kubectl get services
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: khanks-test-service
+spec:
+        type: ClusterIP
+        selector:
+                app: khanks-test-redis
+                ports:
+                        - name: khanks-test-redis
+                          port: 5000
+                          targetPort: 5000
