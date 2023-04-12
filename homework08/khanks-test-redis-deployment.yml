@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: khanks-test-redis
+        labels:
+                app: khanks-test-redis
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: khanks-test-redis
+        template:
+                metadata:
+                        labels:
+                                app: khanks-test-redis
+                spec:
+                        containers:
+                                - name: khanks-test-redis
+                                  image: redis:7
+                                  volumeMounts:
+                                          - name: khanks-test-redis
+                                            mountPath: "/data"
+                        volumes:
+                        - name: khanks-test-redis
+                          persistentVolumeClaim:
+                            claimName: khanks-test-data
